@@ -44,6 +44,11 @@ const onButtonSelector = () =>
   ].join(",");
 const onButton = () => document.querySelector(onButtonSelector());
 
+const isCurrentlyMuted = () => onButton() !== null;
+
+let keydownCount = 0;
+let muteButtonStateBeforeKeypress = null;
+
 const toggle = (hotkey, isMuted) => {
   // actual event listener
   return (event) => {
@@ -64,6 +69,34 @@ const toggle = (hotkey, isMuted) => {
     }
 
     event.preventDefault();
+
+    if (event.type === "keydown") {
+      keydownCount += 1;
+
+      // deciding state of mute button before the keypress
+      if (keydownCount === 1) {
+        muteButtonStateBeforeKeypress = isCurrentlyMuted();
+      }
+    }
+
+    if (event.type === "keyup") {
+      // if keydown event is counted more than once than it's interpreted as push to talk trigger
+      // otherwise just toggle the mute state
+      const interpretAsPushToTalk = keydownCount > 1;
+
+      // reset keydown counter on keyup event
+      keydownCount = 0;
+
+      if (!interpretAsPushToTalk) {
+        // if mute button state is false (not muted) then we need to toggle it on manually
+        if (!muteButtonStateBeforeKeypress) {
+          setTimeout(() => offButton()?.click(), 100);
+        }
+
+        // if not interpreted as push to talk then keyup event should not toggle push to talk
+        return;
+      }
+    }
 
     const micButton = isMuted ? onButton() : offButton();
     micButton?.click();

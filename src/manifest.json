@@ -1,5 +1,5 @@
 {
-  "manifest_version": 2,
+  "manifest_version": 3,
   "name": "Google Meet Push-To-Talk",
   "description": "Hold <space> in Google Meet to talk instead of fumbling around trying to mute and unmute",
   "icons": {
@@ -13,19 +13,11 @@
       "js": ["ptt.bundle.js"]
     }
   ],
-  "background": { "scripts": ["background.bundle.js"], "persistent": false },
-  "commands": {
-    "toggle-meeting-mute": {
-      "suggested_key": {
-        "default": "Ctrl+Space",
-        "mac": "MacCtrl+Space"
-      },
-      "description": "Globally TOGGLE mute in Google Meet"
-    }
-  },
-  "page_action": {
+  "background": { "service_worker": "background.bundle.js" },
+  "action": {
     "default_popup": "options.html"
   },
   "options_page": "options.html",
-  "permissions": ["storage", "declarativeContent", "alarms"]
+  "permissions": ["storage", "declarativeContent", "alarms"],
+  "content_security_policy": {}
 }

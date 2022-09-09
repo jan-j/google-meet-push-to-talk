@@ -25,7 +25,9 @@ const micButtonSelector = (tip) => `[aria-label*='${tip}']`;
 const offButtonSelector = () =>
   [
     "[data-is-muted=false][aria-label*='+ d']",
+    "[data-is-muted=false][aria-label*='+ D']",
     "[data-is-muted=false][data-tooltip*='+ d']",
+    "[data-is-muted=false][data-tooltip*='+ D']",
     micButtonSelector(MIC_OFF[currentLanguage()]),
     oldMicButtonSelector(MIC_OFF[currentLanguage()]),
   ].join(",");
@@ -34,7 +36,9 @@ const offButton = () => document.querySelector(offButtonSelector());
 const onButtonSelector = () =>
   [
     "[data-is-muted=true][aria-label*='+ d']",
+    "[data-is-muted=true][aria-label*='+ D']",
     "[data-is-muted=true][data-tooltip*='+ d']",
+    "[data-is-muted=true][data-tooltip*='+ D']",
     micButtonSelector(MIC_ON[currentLanguage()]),
     oldMicButtonSelector(MIC_ON[currentLanguage()]),
   ].join(",");
